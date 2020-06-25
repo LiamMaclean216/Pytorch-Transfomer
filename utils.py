@@ -6,11 +6,18 @@ import math
 
 def attention(Q, K, V):
     #Attention(Q, K, V) = norm(QK)V
+    
     a = a_norm(Q, K)
-    return torch.matmul(a,  V)
+    #print(Q.shape, K.shape, a.shape)
+    
+    a = torch.matmul(a,  V)
+    #print(Q.shape, K.shape, V.shape, a.shape)
+    #print()
+    return a
 
 def a_norm(Q, K):
-    m = torch.matmul(Q, K.transpose(1,0).float())
+    
+    m = torch.matmul(Q, K.transpose(2,1).float())
     #print(m/ torch.sqrt(torch.tensor(dim_attn).float()))
     return torch.softmax(m , -1)
 
@@ -51,7 +58,9 @@ class Query(torch.nn.Module):
         #self.fc2 = nn.Linear(5, dim_attn)
     
     def forward(self, x):
+        
         x = self.fc1(x)
+        #print(x.shape)
         #x = self.fc2(x)
         
         return x
@@ -61,8 +70,8 @@ class AttentionBlock(torch.nn.Module):
     def __init__(self, dim_val, dim_attn):
         super(AttentionBlock, self).__init__()
         self.value = Value(dim_val, dim_val)
-        self.key = Value(dim_val, dim_attn)
-        self.query = Value(dim_val, dim_attn)
+        self.key = Key(dim_val, dim_attn)
+        self.query = Query(dim_val, dim_attn)
     
     def forward(self, x, kv = None):
         if(kv is None):
@@ -90,5 +99,5 @@ class PositionalEncoding(nn.Module):
         self.register_buffer('pe', pe)
 
     def forward(self, x):
-        x = x + self.pe[:x.size(0), :]. squeeze(1)
+        x = x + self.pe[:x.size(1), :]. squeeze(1)
         return x        
