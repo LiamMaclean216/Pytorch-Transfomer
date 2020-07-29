@@ -117,4 +117,13 @@ class PositionalEncoding(nn.Module):
 
     def forward(self, x):
         x = x + self.pe[:x.size(1), :]. squeeze(1)
-        return x        
+        return x     
+    
+def get_data(batch_size, input_sequence_length, output_sequence_length):
+    i = input_sequence_length + output_sequence_length
+    
+    t = torch.zeros(batch_size,1).uniform_(0,20 - i).int()
+    b = torch.arange(-10, -10 + i).unsqueeze(0).repeat(batch_size,1) + t
+    
+    s = torch.sigmoid(b.float())
+    return s[:, :input_sequence_length].unsqueeze(-1), s[:,-output_sequence_length:]
