@@ -39,6 +39,8 @@ class MultiHeadAttentionBlock(torch.nn.Module):
         for i in range(n_heads):
             self.heads.append(AttentionBlock(dim_val, dim_attn))
         
+        self.heads = nn.ModuleList(self.heads)
+        
         self.fc = nn.Linear(n_heads * dim_val, dim_val, bias = False)
                       
         
