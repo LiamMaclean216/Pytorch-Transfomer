@@ -19,7 +19,7 @@ We create another figure to visualise this.
 If all went well, the output should look something like this :  
 ![](https://github.com/LiamMaclean216/Pytorch-Transfomer/blob/master/doc/comparegraph.png)  
 Note that the network uses past values instead of the x axis for its predictions , so it makes sense that the output is offset.
-However it did succesfully captured the shape.    
+However it did succesfully capture the shape.    
 
 Resources:  
 * Attention is all you need : https://arxiv.org/abs/1706.03762
