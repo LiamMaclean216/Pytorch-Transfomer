@@ -54,11 +54,11 @@ class Transformer(torch.nn.Module):
         self.dec_seq_len = dec_seq_len
         
         #Initiate encoder and Decoder layers
-        self.encs = []
+        self.encs = nn.ModuleList()
         for i in range(n_encoder_layers):
             self.encs.append(EncoderLayer(dim_val, dim_attn, n_heads))
         
-        self.decs = []
+        self.decs = nn.ModuleList()
         for i in range(n_decoder_layers):
             self.decs.append(DecoderLayer(dim_val, dim_attn, n_heads))
         
